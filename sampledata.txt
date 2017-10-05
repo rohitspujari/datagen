@@ -1,0 +1,5 @@
+10.2.1.33 - - [05/Oct/2017 12:29:03] "GET /inventory/product/name/Bubble_Wrap HTTP 1.1" 200 199 223
+50.112.95.129 - - [05/Oct/2017 12:28:52] "GET /inventory/search?q=Candle-Beer HTTP 1.1" 200 237 214
+23.20.53.173 - - [05/Oct/2017 12:28:43] "POST /user/cart/add HTTP 1.1" 200 161 221
+81.170.61.168 - - [05/Oct/2017 12:28:37] "GET /inventory/search?q=Man HTTP 1.1" 200 213 210
+50.112.95.81 - - [05/Oct/2017 12:28:33] "POST /user/cart/checkout HTTP 1.1" 200 184 259
