@@ -8,6 +8,7 @@ This program expects 1 argument => Output File
 """
 
 import sys
+import os
 import time
 import re
 import datetime
@@ -17,7 +18,16 @@ from ast import literal_eval # This is to convert string into regex
 outputFile = "datagenout.txt"
 
 if(len(sys.argv) > 1):
-    outputFile = sys.argv[1]
+    outputFilePath = sys.argv[1]
+    outputDir, outputFile = os.path.split(os.path.expanduser(outputFilePath))
+    if os.path.exists(outputDir) == False:
+        sys.exit("The directory path doesnot exist")
+        
+
+testmode = False
+if(len(sys.argv) > 2):
+    if(sys.argv[2] == 'testmode'):
+        testmode = True
 
 config = {}
 # Read Configuration File
@@ -37,10 +47,13 @@ timestamp = re.compile(timestamp_token)
 
 while True:
     with open("sampledata.txt", "r") as file: 
-        with open(outputFile,"a") as output:
+        with open(outputFilePath,"a") as output:
             for line in file:
                 currentTime = datetime.datetime.strftime( datetime.datetime.now(), timestamp_format)
                 lineWithCurrentTime = timestamp.sub(currentTime, line)
-                print(lineWithCurrentTime, file=output)
+                if(testmode == True):
+                    print(lineWithCurrentTime)
+                else:
+                    print(lineWithCurrentTime, file=output)  
                 time.sleep(interval)
     
