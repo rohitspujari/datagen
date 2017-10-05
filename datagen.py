@@ -9,13 +9,14 @@ This program expects 1 argument => Output File
 
 import sys
 import os
+import daemon
 import time
 import re
 import datetime
 from ast import literal_eval # This is to convert string into regex
 
 
-outputFile = "datagenout.txt"
+outputFilePath = "./datagenout.txt"
 
 if(len(sys.argv) > 1):
     outputFilePath = sys.argv[1]
@@ -45,15 +46,22 @@ timestamp_token = literal_eval(config['timestamp_token'])
 timestamp_format = config['timestamp_format']
 timestamp = re.compile(timestamp_token)
 
-while True:
-    with open("sampledata.txt", "r") as file: 
-        with open(outputFilePath,"a") as output:
-            for line in file:
-                currentTime = datetime.datetime.strftime( datetime.datetime.now(), timestamp_format)
-                lineWithCurrentTime = timestamp.sub(currentTime, line)
-                if(testmode == True):
-                    print(lineWithCurrentTime)
-                else:
-                    print(lineWithCurrentTime, file=output)  
-                time.sleep(interval)
+def write_events():
+    while True:
+        with open("sampledata.txt", "r") as file: 
+            with open(outputFilePath,"a") as output:
+                for line in file:
+                    currentTime = datetime.datetime.strftime( datetime.datetime.now(), timestamp_format)
+                    lineWithCurrentTime = timestamp.sub(currentTime, line)
+                    if(testmode == True):
+                        print(lineWithCurrentTime)
+                    else:
+                        output.write(lineWithCurrentTime)  
+                    time.sleep(interval)
+
+def run():
+    write_events()
+        
+if __name__ == "__main__":
+    run()
     
